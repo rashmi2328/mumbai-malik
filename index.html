@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malik Mumbai ❤️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; width: 100%; overflow-x: hidden; overflow-y: auto; font-family: 'Outfit', sans-serif; background: #120014; }
+
+    /* BG — Mumbai night */
+    .bg-img {
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url('https://images.unsplash.com/photo-1529253355930-ddbe423a2ac7?w=1600&q=80&fit=crop');
+      background-size: cover; background-position: center 55%;
+    }
+    .bg-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(160deg,
+        rgba(18,0,20,0.94) 0%,
+        rgba(215,38,163,0.18) 45%,
+        rgba(18,0,20,0.96) 100%
+      );
+    }
+
+    /* Noise grain */
+    .grain {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Red glow blobs */
+    .orb { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 1; }
+
+    .wrapper {
+      position: relative; z-index: 10;
+      min-height: 100vh; width: 100%;
+      display: flex; flex-direction: column;
+    }
+
+    /* ── TICKER ── */
+    .ticker {
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid rgba(215,38,163,0.4);
+      overflow: hidden; white-space: nowrap; flex-shrink: 0;
+    }
+    .ticker-inner { display: inline-block; animation: tick 20s linear infinite; }
+    @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── HERO — new layout: centered split with big number ── */
+    .hero {
+      flex: 1;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 28px 22px 16px;
+      position: relative; overflow: hidden; min-height: 0;
+    }
+
+    /* Big 24 jersey number ghost */
+    .jersey-num {
+      position: absolute;
+      font-family: 'Anton', sans-serif;
+      font-size: 72vw; color: rgba(215,38,163,0.07);
+      top: 50%; left: 50%;
+      transform: translate(-46%, -52%);
+      pointer-events: none; user-select: none; z-index: 0; line-height: 1;
+    }
+
+    /* Heart beat */
+    .heart {
+      font-size: 42px; line-height: 1;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      filter: drop-shadow(0 0 18px rgba(255,78,205,0.8));
+      position: relative; z-index: 1;
+      margin-bottom: 12px;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); filter: drop-shadow(0 0 12px rgba(255,78,205,0.6)); }
+      14%      { transform: scale(1.18); filter: drop-shadow(0 0 28px rgba(255,78,205,1)); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.1); filter: drop-shadow(0 0 22px rgba(255,78,205,0.9)); }
+    }
+
+    /* Channel label */
+    .ch-label {
+      font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255,78,205,0.65); margin-bottom: 8px;
+      position: relative; z-index: 1;
+    }
+
+    /* Headline */
+    .hl-malik {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(4rem, 20vw, 9rem);
+      color: #ffffff;
+      line-height: 0.82; letter-spacing: 0.01em;
+      position: relative; z-index: 1;
+      text-shadow: 0 0 60px rgba(220,40,40,0.2);
+    }
+    .hl-mumbai {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.2rem, 11vw, 5rem);
+      background: linear-gradient(90deg, #d726a3, #ff4ecd, #ff7ce5, #d726a3);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 0.9;
+      position: relative; z-index: 1; letter-spacing: 0.04em;
+    }
+
+    /* Red divider with hearts */
+    .heart-rule {
+      display: flex; align-items: center; gap: 8px;
+      margin: 16px 0; position: relative; z-index: 1;
+    }
+    .hr-line { flex: 1; height: 1px; background: rgba(215,38,163,0.22); }
+    .hr-heart { font-size: 12px; line-height: 1; color: #ff4ecd; }
+
+    /* Subtext */
+    .subtext {
+      font-size: 0.78rem; color: rgba(255, 255, 255, 0.752);
+      font-weight: 300; line-height: 1.65;
+      max-width: 270px; text-align: center;
+      position: relative; z-index: 1;
+    }
+
+    /* Horizontal 4-feature strip */
+    .feat-strip {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      gap: 6px; margin-top: 16px; width: 100%;
+      position: relative; z-index: 1;
+    }
+    .feat-item {
+      background: rgba(215,38,163,0.09);
+      border: 1px solid rgba(215,38,163,0.18);
+      border-radius: 10px; padding: 10px 4px; text-align: center;
+    }
+    .feat-icon { font-size: 18px; margin-bottom: 4px; }
+    .feat-lbl {
+      font-size: 8px; color: rgba(255,78,205,0.8);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    /* Stats — 3 cards */
+    .stats {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 8px; margin-top: 10px; width: 100%;
+      position: relative; z-index: 1;
+    }
+    .stat-card {
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(215,38,163,0.12);
+      border-radius: 10px; padding: 10px 6px; text-align: center;
+    }
+    .stat-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.2rem; color: #ff4ecd; line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 8px; color: rgba(255,255,255,0.28);
+      text-transform: uppercase; letter-spacing: 0.1em; margin-top: 3px;
+    }
+
+    /* BOTTOM */
+    .bottom {
+      padding: 14px 18px 22px; flex-shrink: 0;
+      display: flex; flex-direction: column; gap: 10px;
+      border-top: 1px solid rgba(215,38,163,0.13);
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(12px);
+    }
+
+    /* CTA */
+    .cta {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; min-height: 50px;
+      background: linear-gradient(135deg, #d726a3, #ff4ecd, #d726a3);
+      background-size: 200% 100%;
+      color: #fff;
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(0.95rem, 4.5vw, 1.1rem);
+      letter-spacing: 0.12em;
+      border-radius: 12px; text-decoration: none;
+      position: relative; overflow: hidden;
+      box-shadow: 0 4px 28px rgba(215,38,163,0.4);
+      transition: transform .18s;
+      -webkit-tap-highlight-color: transparent;
+      animation: ctaslide 3s linear infinite;
+    }
+    @keyframes ctaslide {
+      0%{background-position:0%} 100%{background-position:200%}
+    }
+    .cta svg { flex-shrink: 0; width: 18px; height: 18px; }
+    .cta::after {
+      content: '';
+      position: absolute; top:0; left:-100%; width:50%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      transform: skewX(-18deg);
+      animation: shine 3s ease-in-out infinite;
+    }
+    @keyframes shine { 0%,65%{left:-100%} 100%{left:160%} }
+    .cta:active { transform: scale(0.97); }
+
+    /* Meta */
+    .meta { display: flex; align-items: center; justify-content: space-between; }
+
+    @keyframes ping { 75%,100%{transform:scale(2.2);opacity:0} }
+    .ping { animation: ping 1.3s cubic-bezier(0,0,.2,1) infinite; background: #ff4ecd !important; }
+    /* Orbs - magenta pink */
+    .orb {
+      /* override inline style for color */
+    }
+  </style>
+ <!-- Meta Pixel Code start -->
+ <!-- Meta Pixel Code end -->
+
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1867802963822423&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code --> 
+</head>
+<body>
+
+  <div class="bg-img"></div>
+  <div class="grain"></div>
+  <div class="orb" style="width:300px;height:300px;background:rgba(215,38,163,0.10);top:-60px;right:-60px;"></div>
+  <div class="orb" style="width:250px;height:250px;background:rgba(255,78,205,0.07);bottom:-50px;left:-50px;"></div>
+
+  <div class="wrapper">
+
+    <!-- TICKER -->
+    <div class="ticker py-1.5">
+      <div class="ticker-inner" style="font-size:11px;font-weight:700;letter-spacing:0.16em;color:rgba(255,78,205,0.85);">
+        <span style="padding:0 14px;">❤️ MALIK MUMBAI •</span>
+        <span style="padding:0 14px;">DAILY TIPS •</span>
+        <span style="padding:0 14px;">IPL PICKS •</span>
+        <span style="padding:0 14px;">CRICKET PREDICTIONS •</span>
+        <span style="padding:0 14px;">FREE TO JOIN •</span>
+        <span style="padding:0 14px;">LIVE ALERTS •</span>
+        <span style="padding:0 14px;">MUMBAI KA PYAAR •</span>
+        <span style="padding:0 14px;">❤️ MALIK MUMBAI •</span>
+        <span style="padding:0 14px;">DAILY TIPS •</span>
+        <span style="padding:0 14px;">IPL PICKS •</span>
+        <span style="padding:0 14px;">CRICKET PREDICTIONS •</span>
+        <span style="padding:0 14px;">FREE TO JOIN •</span>
+        <span style="padding:0 14px;">LIVE ALERTS •</span>
+        <span style="padding:0 14px;">MUMBAI KA PYAAR •</span>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="jersey-num">M</div>
+
+      <div class="heart">❤️</div>
+      <p class="ch-label">Telegram Channel</p>
+
+      <div style="text-align:center;">
+        <div class="hl-malik">MALIK</div>
+        <div class="hl-mumbai mt-3">MUMBAI</div>
+      </div>
+
+      <div class="heart-rule">
+        <div class="hr-line"></div>
+        <div class="hr-heart">💖</div>
+        <div class="hr-heart">💖</div>
+        <div class="hr-heart">💖</div>
+        <div class="hr-line"></div>
+      </div>
+
+      <p class="subtext">Mumbai ka dil, cricket ka junoon — daily tips, IPL picks &amp; live alerts straight to your Telegram.</p>
+
+      <!-- Feature strip -->
+      <div class="feat-strip">
+        <div class="feat-item">
+          <div class="feat-icon">🏏</div>
+          <div class="feat-lbl">Cricket</div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">📊</div>
+          <div class="feat-lbl">Analysis</div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">⚡</div>
+          <div class="feat-lbl">Live</div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon">🏆</div>
+          <div class="feat-lbl">IPL</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-num">DAILY</div>
+          <div class="stat-lbl">Tips</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">FREE</div>
+          <div class="stat-lbl">To Join</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">LIVE</div>
+          <div class="stat-lbl">Alerts</div>
+        </div>
+      </div>
+       <!-- BOTTOM -->
+    <div class="bottom w-full mt-5">
+      <a href="https://t.me/+8Hi0PchRanphMTgx" target="_blank" class="cta">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        JOIN FREE ON TELEGRAM
+      </a>
+      <div class="meta">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="position:relative;display:inline-flex;width:8px;height:8px;">
+            <span class="ping" style="position:absolute;inset:0;border-radius:50%;background:#ff4ecd;opacity:0.75;display:inline-flex;width:100%;height:100%;"></span>
+            <span style="position:relative;width:8px;height:8px;border-radius:50%;background:#ff4ecd;display:inline-flex;flex-shrink:0;"></span>
+          </span>
+          <span style="font-size:10px;color:rgba(255,255,255,0.25);">Members active now</span>
+        </div>
+        <p style="font-size:10px;color:rgba(255,255,255,0.15);">Free forever · Bet responsibly</p>
+      </div>
+    </div>
+    </div>
+
+   
+
+  </div>
+
+</body>
+</html>
